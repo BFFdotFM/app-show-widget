@@ -4,6 +4,11 @@ Standalone HTML widget for displaying the current on air BFF.fm show. Renders a 
 
 Designed to be embedded inside an app or webpage.
 
+## Usage
+
+* Deploy or embed the html, css and js code from `/src` to a web server or locally within an app.
+* Note that external data requests to the station domains are required to load the font stylesheet, and to request the now playing data.
+
 ## Credits
 
-* Author: Ben Ward <ben@bff.fm>, 2022.
+* Author: Ben Ward [ben@bff.fm](ben@bff.fm), 2022.
