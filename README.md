@@ -17,6 +17,11 @@ The widget will attempt to scale artwork to fill all available vertical space. S
 * Deploy or embed the html, css and js code from `/dist` to a web server or locally within an app.
 * Note that external data requests to the station domains are required to load the font stylesheet, and to request the now playing data.
 
+## Usage
+
+* Deploy or embed the html, css and js code from `/src` to a web server or locally within an app.
+* Note that external data requests to the station domains are required to load the font stylesheet, and to request the now playing data.
+
 ## Credits
 
 * Author: Ben Ward [ben@bff.fm](ben@bff.fm), 2022.
