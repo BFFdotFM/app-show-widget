@@ -1,11 +1,13 @@
 (function () {
   // Configuration
   const DEFAULT_IMAGE = 'https://aw.bff.fm/assets/art/pattern-grey/9d57e2497e07595604bbd02239b15048a321b29c.png';
+  const DEFAULT_COVERART = 'https://aw.bff.fm/assets/art/album-art-placeholder/a79c786a182e064925a69b40d69f20abc670e924.svg';
   const DEFAULT_TITLE = 'BFF.fm';
+
   // const HOST = 'http:localhost:8090';
   const HOST = 'https://bff.fm';
   const UPDATE_FREQ = 10000;
-  const DEBUG = false;
+  const DEBUG = true;
 
   function debug(...args) {
     if (DEBUG) {
@@ -76,5 +78,13 @@
       .then(render)
       .finally(() => setTimeout(run, UPDATE_FREQ));
   }
+
+  window.addEventListener('load', function () {
+    document.querySelector('.debugButton').addEventListener('click', function () {
+      document.querySelector('.TrackWidget').classList.toggle('is-default-cover');
+      document.querySelector('.ShowWidget').classList.toggle('is-expanded');
+    });
+  });
+
   run();
 })();

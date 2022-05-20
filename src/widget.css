@@ -1,5 +1,16 @@
 :root {
+
   --appPadding: 20px;
+  --collapsedArtSize: 33%;
+
+
+
+  --fontSizeDefault: 18px;
+  --lineHeightDefault: 26px;
+  --fontSizeSm: 14px;
+  --lineHeightSm: 22px;
+
+  --bffRed: #f36c4f;
 }
 
 html, body, h1, dl, dt, dd, p, a {
@@ -13,8 +24,16 @@ a:link, a:hover, a:visited, a:active {
 }
 
 html, body {
-  font: normal normal normal 16px/24px FlamaWeb, system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  font: normal normal normal 14px/22px FlamaWeb, system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   color: #252525;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+html {
+  max-width: 750px;
+  margin: 0 auto;
 }
 
 .ShowWidget {
@@ -26,7 +45,7 @@ html, body {
 }
 
 .ShowWidget-logo {
-  flex-basis: 33%;
+  flex-basis: var(--collapsedArtSize);
   flex-shrink: 0;
   flex-grow: 0;
 }
@@ -48,8 +67,8 @@ html, body {
 }
 
 .ShowWidget-title {
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 18px;
+  line-height: 26px;
   font-weight: bold;
   text-transform: uppercase;
   color: #f36c4f;
@@ -67,20 +86,107 @@ html, body {
   color: #707070;
 }
 
-@media (min-width: 600px) {
- .ShowWidget-info {
-   font-size: 24px;
-   line-height: 32px;
-   margin-bottom: 20px;
- }
-
- .ShowWidget-title,
- .ShowWidget-host::before {
-   font-size: 16px;
-   line-height: 26px;
- }
+.ShowWidget.is-missing-data .ShowWidget-host {
+  display: none;
 }
 
-.is-missing-data .ShowWidget-host {
-  display: none;
+.ShowWidget.is-expanded {
+  flex-direction: column;
+}
+
+.is-expanded .ShowWidget-info {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.TrackWidget {
+  position: relative;
+  padding: var(--appPadding);
+  display: flex;
+  flex-direction: column;
+  gap: max(20px, 5%);
+}
+
+.TrackWidget-coverArt {
+  flex-basis: auto;
+  flex-shrink: 10;
+  flex-grow: 10;
+}
+
+.TrackWidget-image {
+  box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.45);
+  width: 100%;
+  max-width: 50vh;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  display: block;
+
+  border-radius: 4px;
+}
+
+.TrackWidget-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.TrackWidget-metadata {
+  text-align: center;
+}
+
+.TrackWidget-title {
+  font-size: 18px;
+  line-height: 26px;
+}
+.TrackWidget-artist {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: bold;
+}
+.TrackWidget-album {
+  font-size: 18px;
+  line-height: 26px;
+  font-style: italic;
+}
+
+.TrackWidget.is-default-cover {
+  flex-direction: row;
+  gap: max(20px, 5%);
+}
+
+.is-default-cover .TrackWidget-coverArt {
+  flex-basis: 20%;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.is-default-cover .TrackWidget-label {
+  left: calc(var(--appPadding) + 10px);
+}
+
+.is-default-cover .TrackWidget-metadata {
+  text-align: left;
+}
+
+/* Wide Devices */
+@media (min-width: 600px) {
+  .TrackWidget {
+    flex-direction: row;
+  }
+
+  .TrackWidget-coverArt {
+    flex-basis: 50%;
+  }
+
+  .TrackWidget-metadata {
+    text-align: left;
+  }
+}
+
+.DebuggingControls {
+  position: fixed;
+  margin: 20px;
+  bottom: 0;
+  left: 0;
 }
