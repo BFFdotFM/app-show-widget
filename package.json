@@ -1,0 +1,29 @@
+{
+  "name": "bffdotfm-app-home",
+  "version": "2.0.0",
+  "description": "BFF.FM is a community radio station based in San Francisco, CA. This is the home screen widget for our app.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:BFFdotFM/app-show-widget.git"
+  },
+  "author": "Ben Ward",
+  "scripts": {
+    "build:js": "webpack -p --config conf/webpack.conf.js",
+    "build:css": "mkdir -p dist/resources/css && postcss -c conf/ -o dist/resources/css/bff.css src/css/index.css -m",
+    "build": "npm run build:html && npm run build:js && npm run build:css && npm run build:assets && npm run build:metadata",
+    "clean": "rm -r dist/*",
+    "lint:js": "eslint src/js --ext .js",
+    "lint:css": "node scripts/csslint.js",
+    "lint": "npm run lint:js && npm run lint:css",
+    "test:js": "karma start ./conf/karma.conf.js",
+    "test": "npm run lint && npm run test:js",
+    "version:feature": "npm --no-git-tag-version version minor",
+    "version:fix": "npm --no-git-tag-version version patch",
+    "start": "npm run build"
+  },
+  "devDependencies": {
+    "webpack": "^5.72.1"
+  },
+  "dependencies": {
+  }
+}
