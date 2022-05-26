@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <base target="_blank">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="color-scheme" content="light">
+  <title>On Air Now – BFF.fm</title>
+  <link rel="stylesheet" href="https://aw.bff.fm/css/flama/ad7e6997bfd181a1304100a8b692064cee0278d9.css">
+  <!-- <link rel="stylesheet" href="./widget.css">
+  <script src="./widget.js"></script> -->
+ <!-- Flexbox Version
+  <style>
+
+    html {
+      margin: 0;
+      padding: 0;
+
+      --maxWidth: 500px;
+    }
+
+    body {
+      height: calc(100vh - 40px);
+      padding: 20px;
+      background: #ccc;
+    }
+
+    /* container */
+    main {
+      height: 80vh;
+      max-width: var(--maxWidth);
+      padding: 10px;
+      background: #c00;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* widget */
+    article {
+      background: #a40;
+      padding: 10px;
+
+      flex-grow: 1;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    article.collapsed {
+      flex-grow: 0;
+      flex-direction: row;
+    }
+
+    /* section */
+    section {
+      background: #055;
+      padding: 10px;
+      flex-grow: 100;
+    }
+
+    section.info {
+      flex-grow: 0;
+      flex-basis: min-content;
+    }
+
+    section.art {
+      position: relative;
+      flex-basis: 100%;
+      max-height: 100vw;
+    }
+
+    img {
+      position: absolute;
+      object-fit: contain;
+      max-height: 100%;
+      width: 100%;
+    }
+  </style>
+-->
+<!--
+  Grid
+ <style>
+
+   html {
+     margin: 0;
+     padding: 0;
+     --maxWidth: 500px;
+   }
+
+   body {
+     height: calc(100vh - 40px);
+     padding: 20px;
+     background: #ccc;
+   }
+
+   /* container */
+   main {
+     height: 80vh;
+     max-height: 80vh;
+     max-width: var(--maxWidth);
+     padding: 10px;
+     background: #c00;
+
+     display: grid;
+     grid-template-columns: 100px auto;
+     grid-template-rows: 100px min(calc(80vh - 200px), min(100vw, var(--maxWidth))) auto;
+     grid-template-areas:
+       "show-logo show-info"
+       "track-cover track-cover"
+       "track-info track-info";
+    grid-gap: 10px;
+
+    /* transition: grid-template-rows 1s, grid-template-columns 1s; */
+   }
+
+   main.show-expanded {
+     grid-template-rows: min(calc(80vh - 200px), min(100vw, var(--maxWidth))) 100px auto;
+     grid-template-areas:
+       "show-logo show-logo"
+       "show-info show-info"
+       "track-cover track-info";
+   }
+
+  .show, .track {
+    display: contents;
+  }
+
+  .art {
+    position: relative;
+  }
+
+   .show .art {
+     grid-area: show-logo;
+   }
+
+   .show .info {
+     grid-area: show-info;
+   }
+
+   .track .art {
+     grid-area: track-cover;
+   }
+
+   .track .info {
+     grid-area: track-info;
+   }
+
+  img {
+    transition: height 1s linear, width 1s linear;
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+  }
+
+   .show-expanded .track .art img,
+   .track-expanded .show .art img {
+      height: 100px;
+    }
+
+   .show-expanded .show .art img,
+   .track-expanded .track .art img {
+     max-height: 100%;
+     width: 100%;
+     object-fit: contain;
+   }
+ </style>
+ -->
+
+ <style>
+
+ :root {
+    --maxWidth: 500px;
+    --widgetSpacing: 20px;
+    --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)));
+    --thumbnailSize: min(max(150px, 20vw), calc(var(--maxWidth) / 3));
+    --initialCoverSize: min(calc(80vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)))), min(100vw, var(--maxContentWidth)));
+    --coverSize: var(--initialCoverSize);
+    --bannerSpacing: 75px;
+
+    --backgroundColor: #fafafa;
+    --accentBackground: #efefef;
+    --textColor: #252525;
+    --redColor: #f36c4f;
+    --whiteColor: #fafafa;
+    --accentTextColor: #707070;
+
+    --regularTextSize: 14px;
+    --regularLineHeight: 22px;
+
+    --transitionBounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+ }
+
+  html {
+    margin: 0;
+    padding: 0;
+
+    font: normal normal normal 16px/22px FlamaWeb, sans-serif;
+    color: var(--textColor);
+    background: var(--backgroundColor);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  dl, dd { margin: 0; }
+
+  /* container */
+  .HomeScreen {
+    box-sizing: border-box;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    max-width: var(--maxWidth);
+    outline: #c00 1px dashed;
+  }
+
+  .HomeScreen.has-ads {
+    padding: var(--bannerSpacing) 0;
+    --coverSize: calc(var(--initialCoverSize) - calc(2 * var(--bannerSpacing)));
+  }
+
+  /* Common MetadataInfo Widget */
+  .MetadataInfo {
+    position: relative;
+
+    padding-left: var(--thumbnailSize);
+    height: var(--thumbnailSize);
+    border: var(--widgetSpacing) solid #000;
+
+    transition: height .5s var(--transitionBounce), padding .5s var(--transitionBounce);
+  }
+
+  .MetadataInfo-art {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+  }
+
+  .MetadataInfo-image {
+    object-fit: contain;
+    object-position: center;
+    transition: width .5s var(--transitionBounce), height .5s var(--transitionBounce);
+
+    height: var(--thumbnailSize);
+    width: var(--thumbnailSize);
+    max-width: 100%;
+  }
+
+  .MetadataInfo-content {
+    height: 100%;
+    padding: 0 10px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .MetadataInfo.is-expanded {
+    padding-left: 0;
+    padding-top: var(--coverSize);
+    height: auto;
+  }
+
+  .is-expanded .MetadataInfo-art {
+    right: 0;
+  }
+
+  .is-expanded .MetadataInfo-image {
+    height: var(--coverSize);
+    width: var(--coverSize);
+    box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .is-expanded .MetadataInfo-content {
+    height: auto;
+    padding: 10px;
+    text-align: center;
+  }
+
+
+  .MetadataInfo--show {
+    background: var(--accentBackground);
+    border-color: var(--accentBackground);
+    border-radius: 10px;
+  }
+
+  .MetadataInfo--track {
+    border-color: transparent;
+  }
+
+ .MetadataInfo--upNext {
+   border-color: transparent;
+   --thumbnailSize: min(max(75px, 10vw), calc(var(--maxWidth) / 4));
+ }
+
+.MetadataInfo--upNext .MetadataInfo-content {
+  border-top: 1px solid #252525;
+}
+
+.ScheduleContent {
+  flex-grow: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: var(--regularTextSize);
+  line-height: var(--regularLineHeight);
+}
+
+.ScheduleContent-label {
+  order: 10;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  background: var(--redColor);
+  color: var(--whiteColor);
+}
+
+.ScheduleContent-show {
+  font-weight: bold;
+}
+.ScheduleContent-host {}
+.ScheduleContent-time {
+  color: var(--accentTextColor);
+}
+
+.TrackContent {
+  flex-grow: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: var(--regularTextSize);
+  line-height: var(--regularLineHeight);
+}
+
+.is-expanded .TrackContent {
+  justify-content: center;
+}
+
+.TrackContent-label {
+  order: 10;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  background: var(--redColor);
+  color: var(--whiteColor);
+}
+
+.TrackContent-title {
+  font-weight: bold;
+}
+.TrackContent-artist {}
+.TrackContent-release {
+  color: var(--accentTextColor);
+}
+
+  </style>
+
+
+  <main class="HomeScreen">
+
+    <article id="current-show" class="MetadataInfo MetadataInfo--show">
+      <section class="MetadataInfo-art">
+        <img class="MetadataInfo-image" src="https://a.bff.fm/image/original/BFFtop30.jpeg?width=1000&height=1000&fit=crop" alt="">
+      </section>
+      <section class="MetadataInfo-content">
+        <div class="ScheduleContent">
+          <h1 class="ScheduleContent-label">On Air</h1>
+          <dl>
+            <dt class="ScheduleContent-show">No Magic</dt>
+            <dd class="ScheduleContent-host">Ben Ward</dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+
+    <article id="track" class="MetadataInfo MetadataInfo--track is-expanded">
+      <section class="MetadataInfo-art">
+        <img class="MetadataInfo-image" src="https://a.bff.fm/image/original/1652950574IGlBNCVe-cover-art.jpg?width=1000&height=1000&fit=crop" alt="">
+      </section>
+      <section class="MetadataInfo-content">
+        <div class="TrackContent">
+          <dl>
+            <dt class="TrackContent-title">All Your Need Is Love</dt>
+            <dd class="TrackContent-artist"> The Beatles</dd>
+            <dd class="TrackContent-release">Sgt Peppers Lonely Hearts Club Band</dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+
+    <article id="next-show" class="MetadataInfo MetadataInfo--upNext">
+      <section class="MetadataInfo-art">
+        <img class="MetadataInfo-image" src="https://a.bff.fm/image/original/BFFtop30.jpeg?width=1000&height=1000&fit=crop" alt="">
+      </section>
+      <section class="MetadataInfo-content">
+        <div class="ScheduleContent">
+          <h1 class="ScheduleContent-label">Next</h1>
+          <dl>
+            <dt class="ScheduleContent-show">No Magic</dt>
+            <dd class="ScheduleContent-host">Ben Ward</dd>
+            <dd class="ScheduleContent-time">8pm</dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+
+  </main>
+
+
+  <!-- <main class="HomeScreen">
+    <section class="HomeScreen-content HomeScreen-show">
+
+
+      <div class="ShowWidget is-missing-data">
+        <div class="ShowWidget-logo">
+          <img class="ShowWidget-image" src="https://a.bff.fm/image/original/BFFtop30.jpeg?width=360&height=360&fit=crop" alt="">
+        </div>
+        <div class="ShowWidget-info">
+          <h1 class="ShowWidget-title">On Air</h1>
+          <dl class="ShowWidget-metadata">
+            <dt class="ShowWidget-show">No Magic</dt>
+            <dd class="ShowWidget-host">  Ben Ward</dd>
+          </dl>
+        </div>
+      </div>
+
+
+    </section>
+    <section class="HomeScreen-content HomeScreen-track">
+
+      <div class="TrackWidget">
+        <div class="TrackWidget-coverArt">
+
+        </div>
+        <div class="TrackWidget-info">
+          <dl class="TrackWidget-metadata">
+            <dt class="TrackWidget-title">Fixing a Hole</dt>
+            <dd class="TrackWidget-artist">The Beatles</dd>
+            <dd class="TrackWidget-album">Sgt. Peppers Lonely Hearts Club Band</dd>
+          </dl>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <div class="DebuggingControls">
+    <button class="debugButton">Test</button>
+  </div> -->
+
+</html>
