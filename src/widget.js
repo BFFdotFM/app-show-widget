@@ -6,8 +6,13 @@
 
   // const HOST = 'http:localhost:8090';
   const HOST = 'https://bff.fm';
-  const UPDATE_FREQ = 10000;
+  const UPDATE_FREQ = 10000; // 10 seconds
+  const CLEAR_OLD_TRACK_TIME = 600000; // 10 minutes
   const DEBUG = true;
+
+  var previousTrackInfo;
+  var previousTrackHash;
+  var previousTrackTimeout;
 
   function debug(...args) {
     if (DEBUG) {
@@ -17,7 +22,7 @@
 
   // Data Fetch
   function fetchOnAir() {
-    return window.fetch(`${HOST}/api/data/shows/now.json`, {
+    return window.fetch(`${HOST}/api/data/onair/now.json`, {
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'omit',
@@ -26,12 +31,27 @@
     })
       .then(response => response.json())
       .catch(error => {
-        console.error('HTTP error fetching Show Playing info', error);
+        console.error('HTTP error fetching Now Playing info', error);
         return false;
       });
   }
 
-  // Populate
+  function fetchSchedule() {
+    return window.fetch(`${HOST}/api/data/shows/next.json`, {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'omit',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer'
+    })
+      .then(response => response.json())
+      .catch(error => {
+        console.error('HTTP error fetching Next Show info', error);
+        return false;
+      });
+  }
+
+  // Fastly Image Generation
   function fastlySizeImage(url, size) {
     return `${url}?width=${size}&height${size}&fit=crop`;
   }
@@ -42,40 +62,126 @@
       .join(',');
   }
 
-  function render(showInfo) {
-    let widget = document.querySelector('.ShowWidget');
-    let title = widget.querySelector('.ShowWidget-show');
-    let host = widget.querySelector('.ShowWidget-host');
-    let image = widget.querySelector('.ShowWidget-image');
+  // Utils
+  function hashTrack(trackInfo) {
+    if (!trackInfo.title) {
+      return null;
+    }
 
-    if (showInfo === false) {
+    return [
+      trackInfo.title,
+      trackInfo.artist,
+      trackInfo.album,
+      trackInfo.image
+    ].join(':');
+  }
+
+  // Rendering
+  function renderNowPlaying(nowPlayingInfo) {
+    updateShow(nowPlayingInfo);
+    updateTrack(nowPlayingInfo);
+
+    const newTrackHash = hashTrack(nowPlayingInfo);
+    if (newTrackHash && (newTrackHash != previousTrackHash)) {
+      previousTrackHash = newTrackHash;
+      previousTrackInfo = nowPlayingInfo;
+
+      if (previousTrackTimeout) {
+        window.clearTimeout(previousTrackTimeout);
+        previousTrackTimeout = window.setTimeout(function () {
+          previousTrackInfo = null;
+          previousTrackHash = null;
+        }, CLEAR_OLD_TRACK_TIME)
+      }
+    }
+
+    setVisibility(nowPlayingInfo);
+  }
+
+  function setVisibility(nowPlayingInfo) {
+    const show = document.querySelector('#current-show');
+    const track = document.querySelector('#track');
+    const upcoming = document.querySelector('#next-show');
+
+    // Expand the current track when an image is available, other wise expand
+    // the current show
+    show.classList.toggle('is-expanded', !nowPlayingInfo.image);
+    track.classList.toggle('is-expanded', !!nowPlayingInfo.image);
+
+    // Hide track data in favour of upcoming show when there is no 'previous track' data
+    track.classList.toggle('is-hidden', !nowPlayingInfo.title && !previousTrackInfo);
+    upcoming.classList.toggle('is-hidden', nowPlayingInfo.title || previousTrackInfo);
+  }
+
+  function updateShow(nowPlayingInfo) {
+    let widget = document.querySelector('#current-show');
+    let title = widget.querySelector('.ScheduleContent-show');
+    let host = widget.querySelector('.ScheduleContent-host');
+    let image = widget.querySelector('.MetadataInfo-image');
+
+    if (nowPlayingInfo == false) {
       debug('No show info returned; reverting to defaults');
-      widget.classList.add('is-missing-data');
       title.textContent = DEFAULT_TITLE;
       image.srcset = '';
       image.src = DEFAULT_IMAGE;
       return;
     }
 
-    title.textContent = showInfo.show;
-    host.textContent = showInfo.host;
+    title.textContent = nowPlayingInfo.program;
+    host.textContent = nowPlayingInfo.presenter;
 
-    if (showInfo.image) {
-      image.srcset = fastlySrcSet(showInfo.image);
-      image.src = fastlySizeImage(showInfo.image, 300);
+    if (nowPlayingInfo.program_image) {
+      image.srcset = fastlySrcSet(nowPlayingInfo.program_image);
+      image.src = fastlySizeImage(nowPlayingInfo.program_image, 300);
       debug('Generated image URLs', image.src, image.srcsrc);
     } else {
       debug('No image in response; reverting to default image');
       image.srcset = '';
       image.src = DEFAULT_IMAGE;
     }
-    widget.classList.remove('is-missing-data');
   }
+
+  function updateTrack(nowPlayingInfo) {
+    let widget = document.querySelector('#track');
+    let title = widget.querySelector('.TrackContent-title');
+    let artist = widget.querySelector('.TrackContent-artist');
+    let release = widget.querySelector('.TrackContent-release');
+    let image = widget.querySelector('.MetadataInfo-image');
+
+    if (nowPlayingInfo == false) {
+      nowPlayingInfo = previousTrackInfo;
+    }
+
+    if (nowPlayingInfo == false) {
+      debug('No track info returned; reverting to defaults');
+      title.textContent = '';
+      artist.textContent = '';
+      release.textContent = '';
+      image.srcset = '';
+      image.src = DEFAULT_COVERART;
+      return;
+    }
+
+    artist.textContent = nowPlayingInfo.artist;
+    title.textContent = nowPlayingInfo.title;
+    release.textContent = nowPlayingInfo.album;
+
+    if (nowPlayingInfo.image) {
+      image.srcset = fastlySrcSet(nowPlayingInfo.image);
+      image.src = fastlySizeImage(nowPlayingInfo.image, 300);
+      debug('Generated image URLs', image.src, image.srcsrc);
+    } else {
+      debug('No image in response; reverting to default image');
+      image.srcset = '';
+      image.src = DEFAULT_COVERART;
+    }
+  }
+
   // Init
   function run() {
     debug('Running timed update...', UPDATE_FREQ);
     fetchOnAir()
-      .then(render)
+      .then(renderNowPlaying)
       .finally(() => setTimeout(run, UPDATE_FREQ));
   }
 

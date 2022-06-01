@@ -1,0 +1,21 @@
+:root {
+    --maxWidth: 500px;
+    --widgetSpacing: 20px;
+    --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)));
+    --thumbnailSize: min(max(150px, 20vw), calc(var(--maxWidth) / 3));
+    --initialCoverSize: min(calc(80vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)))), min(100vw, var(--maxContentWidth)));
+    --coverSize: var(--initialCoverSize);
+    --bannerSpacing: 75px;
+
+    --backgroundColor: #fafafa;
+    --accentBackground: #efefef;
+    --textColor: #252525;
+    --redColor: #f36c4f;
+    --whiteColor: #fafafa;
+    --accentTextColor: #707070;
+
+    --regularTextSize: 14px;
+    --regularLineHeight: 22px;
+
+    --transitionBounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+ }

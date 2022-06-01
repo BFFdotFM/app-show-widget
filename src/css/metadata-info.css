@@ -1,0 +1,85 @@
+.MetadataInfo {
+  position: relative;
+
+  padding-left: var(--thumbnailSize);
+  height: var(--thumbnailSize);
+  border: var(--widgetSpacing) solid #000;
+
+  transition: height .5s var(--transitionBounce), padding .5s var(--transitionBounce);
+}
+
+.MetadataInfo-art {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+
+.MetadataInfo-image {
+  object-fit: contain;
+  object-position: center;
+  transition: width .5s var(--transitionBounce), height .5s var(--transitionBounce), box-shadow .5s var(--transitionBounce);
+
+  height: var(--thumbnailSize);
+  width: var(--thumbnailSize);
+  max-width: 100%;
+}
+
+.MetadataInfo-content {
+  height: 100%;
+  padding: 0 10px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.MetadataInfo.is-expanded {
+  padding-left: 0;
+  padding-top: var(--coverSize);
+  height: auto;
+}
+
+.MetadataInfo.is-hidden {
+  display: none;
+}
+
+
+.is-expanded .MetadataInfo-art {
+  right: 0;
+}
+
+.is-expanded .MetadataInfo-image {
+  height: var(--coverSize);
+  width: var(--coverSize);
+  box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.45);
+  background: var(--whiteColor);
+}
+
+.is-expanded .MetadataInfo-content {
+  height: auto;
+  padding: 10px;
+}
+
+.MetadataInfo--show {
+  background: var(--accentBackground);
+  border-color: var(--accentBackground);
+  border-radius: 10px;
+}
+
+.MetadataInfo--track {
+  border-color: transparent;
+}
+
+.MetadataInfo--track.is-expanded .MetadataInfo-content {
+  text-align: center;
+}
+
+.MetadataInfo--upNext {
+  border-color: transparent;
+  --thumbnailSize: min(max(75px, 10vw), calc(var(--maxWidth) / 4));
+}
+
+.MetadataInfo--upNext .MetadataInfo-content {
+  border-top: 1px solid #252525;
+}

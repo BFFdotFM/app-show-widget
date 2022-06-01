@@ -1,0 +1,29 @@
+.ScheduleContent {
+  flex-grow: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: var(--regularTextSize);
+  line-height: var(--regularLineHeight);
+}
+
+.ScheduleContent-label {
+  order: 10;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  background: var(--redColor);
+  color: var(--whiteColor);
+}
+
+.ScheduleContent-show {
+  font-weight: bold;
+}
+.ScheduleContent-host {}
+.ScheduleContent-time {
+  color: var(--accentTextColor);
+}

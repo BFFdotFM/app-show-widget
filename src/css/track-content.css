@@ -1,0 +1,33 @@
+.TrackContent {
+  flex-grow: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: var(--regularTextSize);
+  line-height: var(--regularLineHeight);
+}
+
+.is-expanded .TrackContent {
+  justify-content: center;
+}
+
+.TrackContent-label {
+  order: 10;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  background: var(--redColor);
+  color: var(--whiteColor);
+}
+
+.TrackContent-title {
+  font-weight: bold;
+}
+.TrackContent-artist {}
+.TrackContent-release {
+  color: var(--accentTextColor);
+}
