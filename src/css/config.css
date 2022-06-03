@@ -1,14 +1,18 @@
 :root {
     --maxWidth: 500px;
     --widgetSpacing: 20px;
+    --outerPadding: 20px;
+    --bannerSize: 75px;
+
     --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)));
+
     --thumbnailSize: min(max(150px, 20vw), calc(var(--maxWidth) / 3));
+
     --initialCoverSize: min(
-        calc(100vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)))),
-        min(100vw, var(--maxContentWidth))
+        calc(100vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)) + calc(2 * var(--outerPadding)))),
+        calc(min(100vw, var(--maxContentWidth)) - calc(2 * var(--outerPadding)))
     );
     --coverSize: var(--initialCoverSize);
-    --bannerSpacing: 75px;
 
     --backgroundColor: #fafafa;
     --accentBackground: #efefef;
