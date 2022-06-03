@@ -4,13 +4,14 @@
     --outerPadding: 20px;
     --bannerSize: 75px;
 
-    --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)));
+    --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
+    --maxContentHeight: calc(100vw - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
 
-    --thumbnailSize: min(max(150px, 20vw), calc(var(--maxWidth) / 3));
+    --thumbnailSize: min(max(100px, 20vw), calc(var(--maxWidth) / 3));
 
     --initialCoverSize: min(
         calc(100vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)) + calc(2 * var(--outerPadding)))),
-        calc(min(100vw, var(--maxContentWidth)) - calc(2 * var(--outerPadding)))
+        min(var(--maxContentHeight), var(--maxContentWidth))
     );
     --coverSize: var(--initialCoverSize);
 
