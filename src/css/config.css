@@ -3,7 +3,10 @@
     --widgetSpacing: 20px;
     --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)));
     --thumbnailSize: min(max(150px, 20vw), calc(var(--maxWidth) / 3));
-    --initialCoverSize: min(calc(80vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)))), min(100vw, var(--maxContentWidth)));
+    --initialCoverSize: min(
+        calc(100vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)))),
+        min(100vw, var(--maxContentWidth))
+    );
     --coverSize: var(--initialCoverSize);
     --bannerSpacing: 75px;
 

@@ -8,22 +8,23 @@
   },
   "author": "Ben Ward",
   "scripts": {
-    "build:js": "webpack -p --config conf/webpack.conf.js",
-    "build:css": "mkdir -p dist/resources/css && postcss -c conf/ -o dist/resources/css/bff.css src/css/index.css -m",
-    "build": "npm run build:html && npm run build:js && npm run build:css && npm run build:assets && npm run build:metadata",
-    "clean": "rm -r dist/*",
-    "lint:js": "eslint src/js --ext .js",
-    "lint:css": "node scripts/csslint.js",
-    "lint": "npm run lint:js && npm run lint:css",
-    "test:js": "karma start ./conf/karma.conf.js",
-    "test": "npm run lint && npm run test:js",
+    "build:js": "webpack --config webpack.config.js",
+    "build:css": "postcss -c -o dist/nowplaying.css src/css/index.css -m",
+    "build:html": "cp src/index.html dist/",
+    "build": "npm run build:html && npm run build:js && npm run build:css",
+    "clean": "rm -r dist && mkdir -p dist",
     "version:feature": "npm --no-git-tag-version version minor",
     "version:fix": "npm --no-git-tag-version version patch",
     "start": "npm run build"
   },
   "devDependencies": {
-    "webpack": "^5.72.1"
+    "postcss": "^8.4.14",
+    "postcss-bem-linter": "^3.3.0",
+    "postcss-clean": "^1.2.2",
+    "postcss-cli": "^9.1.0",
+    "postcss-import": "^14.1.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
