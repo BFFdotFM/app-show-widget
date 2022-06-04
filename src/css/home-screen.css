@@ -7,7 +7,7 @@
   max-height: 100vh;
   overflow: hidden;
   max-width: var(--maxWidth);
-  outline: #c00 1px dashed;
+  margin: 0 auto;
 }
 
 .HomeScreen.has-topBanner {

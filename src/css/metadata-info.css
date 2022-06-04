@@ -27,23 +27,28 @@
 
 .MetadataInfo-content {
   height: 100%;
-  padding: 0 10px;
+  padding: 0 20px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
+/** @state is-expanded
+  * The widget should fill available space to emphasise artwork
+  */
 .MetadataInfo.is-expanded {
   padding-left: 0;
   padding-top: var(--coverSize);
   height: auto;
 }
 
+/** @state is-hidden
+  * The widget is not disp;layed
+  */
 .MetadataInfo.is-hidden {
   display: none;
 }
-
 
 .is-expanded .MetadataInfo-art {
   right: 0;
@@ -61,12 +66,18 @@
   padding: 10px;
 }
 
+/** @variant show
+  * Metadata displaying program info
+  */
 .MetadataInfo--show {
   background: var(--accentBackground);
   border-color: var(--accentBackground);
   border-radius: 10px;
 }
 
+/** @variant track
+* Metadata displaying track info
+*/
 .MetadataInfo--track {
   border-color: transparent;
 }
@@ -75,6 +86,28 @@
   text-align: center;
 }
 
+/* wide screen variation */
+@media (min-width: 700px) {
+  .MetadataInfo--track.is-expanded {
+    padding-left: var(--coverSize);
+    padding-top: 0;
+    min-height: var(--coverSize);
+  }
+
+  .MetadataInfo--track.is-expanded .MetadataInfo-art {
+    right: auto;
+  }
+
+  .MetadataInfo--track.is-expanded .MetadataInfo-content {
+    height: var(--coverSize);
+    padding: 0;
+  }
+
+}
+
+/** @variant upnext
+* Metadata displaying upcoming schedule information
+*/
 .MetadataInfo--upNext {
   border-color: transparent;
   --thumbnailSize: min(max(75px, 10vw), calc(var(--maxWidth) / 4));

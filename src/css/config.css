@@ -1,29 +1,44 @@
 :root {
-    --maxWidth: 500px;
-    --widgetSpacing: 20px;
-    --outerPadding: 20px;
-    --bannerSize: 75px;
+  --maxWidth: 500px;
+  --widgetSpacing: 20px;
+  --outerPadding: 20px;
+  --bannerSize: 75px;
 
-    --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
-    --maxContentHeight: calc(100vw - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
+  --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
+  --maxContentHeight: calc(100vw - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
 
-    --thumbnailSize: min(max(100px, 20vw), calc(var(--maxWidth) / 3));
+  --thumbnailSize: min(max(100px, 20vw), calc(var(--maxWidth) / 3));
 
-    --initialCoverSize: min(
-        calc(100vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)) + calc(2 * var(--outerPadding)))),
-        min(var(--maxContentHeight), var(--maxContentWidth))
-    );
-    --coverSize: var(--initialCoverSize);
+  --fullCoverSize: min(
+    calc(100vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)) + calc(2 * var(--outerPadding)))),
+    min(var(--maxContentHeight), var(--maxContentWidth))
+  );
+  --initialCoverSize: var(--fullCoverSize);
+  --coverSize: var(--initialCoverSize);
 
-    --backgroundColor: #fafafa;
-    --accentBackground: #efefef;
-    --textColor: #252525;
-    --redColor: #f36c4f;
-    --whiteColor: #fafafa;
-    --accentTextColor: #707070;
+  --backgroundColor: #fafafa;
+  --accentBackground: #efefef;
+  --textColor: #252525;
+  --redColor: #f36c4f;
+  --whiteColor: #fafafa;
+  --accentTextColor: #707070;
 
-    --regularTextSize: 14px;
-    --regularLineHeight: 22px;
+  --regularTextSize: 14px;
+  --regularLineHeight: 22px;
 
-    --transitionBounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --transitionBounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* TODO: Variation sizes for wider tablet screen */
+@media (min-width: 700px) {
+ :root {
+   --maxWidth: 700px;
+   --initialCoverSize: calc(var(--fullCoverSize) / 1.5);
+
+   --regularTextSize: 18px;
+   --regularLineHeight: 28px;
  }
+}
+/* TODO: Adjust font sizes for larger screens */
+
+/* TODO: Adjust for landscape layout */

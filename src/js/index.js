@@ -131,7 +131,7 @@ function updateNextShow(showInfo) {
   host.textContent = showInfo.host;
   time.textContent = new Date(showInfo.start).toLocaleTimeString('en-us', {
     hour: 'numeric', minute: '2-digit'
-  });
+  }).toLowerCase();
 
   if (showInfo.image) {
     widget.setAttribute('data-cover', '1');
@@ -161,7 +161,6 @@ function clearNextShow() {
   image.src = DEFAULT_IMAGE;
 }
 
-
 function setVisibility() {
   const track = document.querySelector('#track');
   const show = document.querySelector('#current-show');
@@ -186,4 +185,9 @@ function setVisibility() {
   upcoming.classList.toggle('is-hidden', trackHydrated || !upcomingHydrated);
 }
 
-run();
+document.addEventListener('DOMContentLoaded', function (e) {
+  const state = document.readyState;
+  if (state === 'complete' || state === 'interactive') {
+    return setTimeout(run, 0);
+  }
+});
