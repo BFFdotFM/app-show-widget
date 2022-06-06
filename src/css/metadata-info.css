@@ -5,7 +5,11 @@
   height: var(--thumbnailSize);
   border: var(--widgetSpacing) solid #000;
 
-  transition: height .5s var(--transitionBounce), padding .5s var(--transitionBounce);
+  transition:
+    height .5s ease-out,
+    padding .5s ease-out,
+    transform .5s ease-out,;
+    opacity .5s ease-out;
 }
 
 .MetadataInfo-art {
@@ -18,7 +22,12 @@
 .MetadataInfo-image {
   object-fit: contain;
   object-position: center;
-  transition: width .5s var(--transitionBounce), height .5s var(--transitionBounce), box-shadow .5s var(--transitionBounce);
+  transition:
+    width .5s var(--transitionBounce),
+    height .5s var(--transitionBounce),
+    box-shadow .5s var(--transitionBounce),
+    transform .5s ease-in-out,
+    opacity .4s;
 
   height: var(--thumbnailSize);
   width: var(--thumbnailSize);
@@ -34,6 +43,14 @@
   align-items: center;
 }
 
+/** @state is-animatingArtTransition
+  * Transitional removal of cover art from a widget by transitioning off-screen
+  */
+.is-animatingArtTransition .MetadataInfo-exitingImage {
+  transform: scale(.5) rotate(-10deg) translateX(calc(-2 * var(--coverSize)));
+  opacity: 0;
+}
+
 /** @state is-expanded
   * The widget should fill available space to emphasise artwork
   */
@@ -47,8 +64,12 @@
   * The widget is not disp;layed
   */
 .MetadataInfo.is-hidden {
-  display: none;
+  transform: perspective(200px) rotateX(90deg);
+  height: 1px;
+  border-width: 0 var(--widgetSpacing);
+  opacity: 0;
 }
+
 
 .is-expanded .MetadataInfo-art {
   right: 0;
@@ -111,8 +132,4 @@
 .MetadataInfo--upNext {
   border-color: transparent;
   --thumbnailSize: min(max(75px, 10vw), calc(var(--maxWidth) / 4));
-}
-
-.MetadataInfo--upNext .MetadataInfo-content {
-  border-top: 1px solid #252525;
 }

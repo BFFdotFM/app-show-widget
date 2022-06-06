@@ -45,26 +45,47 @@ export default function run() {
   refreshNextShow();
 }
 
+function replaceArtwork(widget, imageUrl, fallback) {
+  const artContainer = widget.querySelector('.MetadataInfo-art');
+  const image = widget.querySelector('.MetadataInfo-image');
+  const newArt = artContainer.cloneNode(true);
+  const newImage = newArt.querySelector('.MetadataInfo-image');
+
+  fallback = fallback || DEFAULT_COVERART;
+
+  if (imageUrl) {
+    newImage.srcset = Fastly.srcSet(imageUrl);
+    newImage.src = Fastly.sizeImage(imageUrl, 300);
+  } else {
+    newImage.srcset = '';
+    newImage.src = DEFAULT_COVERART;
+  }
+
+  artContainer.parentElement.insertBefore(newArt, artContainer);
+  widget.setAttribute('data-cover', imageUrl ? '1' : '0');
+
+  window.requestAnimationFrame(function () {
+    image.classList.add('MetadataInfo-exitingImage');
+    widget.classList.add('is-animatingArtTransition');
+  });
+
+  window.setTimeout(function () {
+    artContainer.remove();
+    widget.classList.remove('is-animatingArtTransition');
+  }, 1000);
+
+}
+
 function updateNowPlayingTrack(nowPlayingInfo) {
   const widget = document.querySelector('#track');
   const title = widget.querySelector('.TrackContent-title');
   const artist = widget.querySelector('.TrackContent-artist');
   const release = widget.querySelector('.TrackContent-release');
-  const image = widget.querySelector('.MetadataInfo-image');
 
   artist.textContent = nowPlayingInfo.artist;
   title.textContent = nowPlayingInfo.title;
   release.textContent = nowPlayingInfo.album;
-
-  if (nowPlayingInfo.image) {
-    widget.setAttribute('data-cover', '1');
-    image.srcset = Fastly.srcSet(nowPlayingInfo.image);
-    image.src = Fastly.sizeImage(nowPlayingInfo.image, 300);
-  } else {
-    widget.setAttribute('data-cover', '0');
-    image.srcset = '';
-    image.src = DEFAULT_COVERART;
-  }
+  replaceArtwork(widget, nowPlayingInfo.image, DEFAULT_COVERART);
 
   widget.setAttribute('data-hydrated', '1');
 }
@@ -74,35 +95,23 @@ function clearNowPlayingTrack() {
   let title = widget.querySelector('.TrackContent-title');
   let artist = widget.querySelector('.TrackContent-artist');
   let release = widget.querySelector('.TrackContent-release');
-  let image = widget.querySelector('.MetadataInfo-image');
 
   widget.setAttribute('data-hydrated', '0');
   widget.setAttribute('data-cover', '0');
   title.textContent = '';
   artist.textContent = '';
   release.textContent = '';
-  image.srcset = '';
-  image.src = DEFAULT_COVERART;
+  replaceArtwork(widget, false, DEFAULT_COVERART);
 }
 
 function updateCurrentShow(nowPlayingInfo) {
   const widget = document.querySelector('#current-show');
   const title = widget.querySelector('.ScheduleContent-show');
   const host = widget.querySelector('.ScheduleContent-host');
-  const image = widget.querySelector('.MetadataInfo-image');
 
   title.textContent = nowPlayingInfo.program;
   host.textContent = nowPlayingInfo.presenter;
-
-  if (nowPlayingInfo.program_image) {
-    widget.setAttribute('data-cover', '1');
-    image.srcset = Fastly.srcSet(nowPlayingInfo.program_image);
-    image.src = Fastly.sizeImage(nowPlayingInfo.program_image, 300);
-  } else {
-    widget.setAttribute('data-cover', '0');
-    image.srcset = '';
-    image.src = DEFAULT_IMAGE;
-  }
+  replaceArtwork(widget, nowPlayingInfo.program_image, DEFAULT_IMAGE);
   widget.setAttribute('data-hydrated', '1');
 }
 
@@ -110,14 +119,12 @@ function clearCurrentShow() {
   const widget = document.querySelector('#current-show');
   const title = widget.querySelector('.ScheduleContent-show');
   const host = widget.querySelector('.ScheduleContent-host');
-  const image = widget.querySelector('.MetadataInfo-image');
 
   widget.setAttribute('data-hydrated', '0');
   widget.setAttribute('data-cover', '0');
   title.textContent = DEFAULT_TITLE;
-  host.textContetn = '';
-  image.srcset = '';
-  image.src = DEFAULT_IMAGE;
+  host.textContent = '';
+  replaceArtwork(widget, false, DEFAULT_IMAGE);
 }
 
 function updateNextShow(showInfo) {
@@ -125,7 +132,6 @@ function updateNextShow(showInfo) {
   const title = widget.querySelector('.ScheduleContent-show');
   const host = widget.querySelector('.ScheduleContent-host');
   const time = widget.querySelector('.ScheduleContent-time');
-  const image = widget.querySelector('.MetadataInfo-image');
 
   title.textContent = showInfo.show;
   host.textContent = showInfo.host;
@@ -133,15 +139,7 @@ function updateNextShow(showInfo) {
     hour: 'numeric', minute: '2-digit'
   }).toLowerCase();
 
-  if (showInfo.image) {
-    widget.setAttribute('data-cover', '1');
-    image.srcset = Fastly.srcSet(showInfo.image);
-    image.src = Fastly.sizeImage(showInfo.image, 300);
-  } else {
-    widget.setAttribute('data-cover', '0');
-    image.srcset = '';
-    image.src = DEFAULT_IMAGE;
-  }
+  replaceArtwork(widget, showInfo.image, DEFAULT_IMAGE);
   widget.setAttribute('data-hydrated', '1');
 }
 
@@ -150,15 +148,13 @@ function clearNextShow() {
   const title = widget.querySelector('.ScheduleContent-show');
   const host = widget.querySelector('.ScheduleContent-host');
   const time = widget.querySelector('.ScheduleContent-time');
-  const image = widget.querySelector('.MetadataInfo-image');
 
   widget.setAttribute('data-hydrated', '0');
   widget.setAttribute('data-cover', '0');
   title.textContent = '';
   host.textContent = '';
   time.textContent = '';
-  image.srcset = '';
-  image.src = DEFAULT_IMAGE;
+  replaceArtwork(widget, false, DEFAULT_IMAGE);
 }
 
 function setVisibility() {
