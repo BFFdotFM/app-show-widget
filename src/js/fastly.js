@@ -1,7 +1,7 @@
 /** Fastly Image Optimizer CDN functions */
 
 export function sizeImage(url, size) {
-  return `${url}?width=${size}&height${size}&fit=crop`;
+  return `${url}?width=${size}&height=${size}&fit=crop`;
 }
 
 export function srcSet(url) {
