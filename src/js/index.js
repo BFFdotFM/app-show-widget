@@ -97,7 +97,6 @@ function clearNowPlayingTrack() {
   let release = widget.querySelector('.TrackContent-release');
 
   widget.setAttribute('data-hydrated', '0');
-  widget.setAttribute('data-cover', '0');
   title.textContent = '';
   artist.textContent = '';
   release.textContent = '';
@@ -121,7 +120,6 @@ function clearCurrentShow() {
   const host = widget.querySelector('.ScheduleContent-host');
 
   widget.setAttribute('data-hydrated', '0');
-  widget.setAttribute('data-cover', '0');
   title.textContent = DEFAULT_TITLE;
   host.textContent = '';
   replaceArtwork(widget, false, DEFAULT_IMAGE);
@@ -150,7 +148,6 @@ function clearNextShow() {
   const time = widget.querySelector('.ScheduleContent-time');
 
   widget.setAttribute('data-hydrated', '0');
-  widget.setAttribute('data-cover', '0');
   title.textContent = '';
   host.textContent = '';
   time.textContent = '';
