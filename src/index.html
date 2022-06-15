@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="debug">
   <base target="_blank">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,51 +9,73 @@
   <link rel="stylesheet" href="./nowplaying.css">
   <script src="./nowplaying.bundle.js"></script>
 
+  <aside id="loader" role="presentation" class="Loader">
+    <div class="Loader-bar"><div class="Loader-fill"></div></div>
+  </aside>
+
   <main class="HomeScreen">
     <article id="current-show" class="MetadataInfo MetadataInfo--show">
       <section class="MetadataInfo-art">
-        <img class="MetadataInfo-image" src="https://a.bff.fm/image/original/BFFtop30.jpeg?width=1000&height=1000&fit=crop" alt="">
+        <img class="MetadataInfo-image" src="" alt="">
       </section>
       <section class="MetadataInfo-content">
         <div class="ScheduleContent">
           <h1 class="ScheduleContent-label">On Air</h1>
           <dl>
-            <dt class="ScheduleContent-show">No Magic</dt>
-            <dd class="ScheduleContent-host">Ben Ward</dd>
+            <dt class="ScheduleContent-show">BFF.fm</dt>
+            <dd class="ScheduleContent-host">Loading…</dd>
           </dl>
         </div>
       </section>
     </article>
 
-    <article id="track" class="MetadataInfo MetadataInfo--track is-expanded">
+    <article id="track" class="MetadataInfo MetadataInfo--track">
       <section class="MetadataInfo-art">
-        <img class="MetadataInfo-image" src="https://a.bff.fm/image/original/1652950574IGlBNCVe-cover-art.jpg?width=1000&height=1000&fit=crop" alt="">
+        <img class="MetadataInfo-image" src="" alt="">
       </section>
       <section class="MetadataInfo-content">
         <div class="TrackContent">
           <dl>
-            <dt class="TrackContent-title">All Your Need Is Love</dt>
-            <dd class="TrackContent-artist"> The Beatles</dd>
-            <dd class="TrackContent-release">Sgt Peppers Lonely Hearts Club Band</dd>
+            <dt class="TrackContent-title"></dt>
+            <dd class="TrackContent-artist"></dd>
+            <dd class="TrackContent-release"></dd>
           </dl>
         </div>
       </section>
     </article>
 
-    <article id="next-show" class="MetadataInfo MetadataInfo--upNext">
+    <article id="next-show" class="MetadataInfo MetadataInfo--upNext is-hidden">
       <section class="MetadataInfo-art">
-        <img class="MetadataInfo-image" src="https://a.bff.fm/image/original/BFFtop30.jpeg?width=1000&height=1000&fit=crop" alt="">
+        <img class="MetadataInfo-image" src="https://aw.bff.fm/assets/art/pattern-grey/9d57e2497e07595604bbd02239b15048a321b29c.png" alt="">
       </section>
       <section class="MetadataInfo-content">
         <div class="ScheduleContent">
           <h1 class="ScheduleContent-label">Next</h1>
           <dl>
-            <dt class="ScheduleContent-show">No Magic</dt>
-            <dd class="ScheduleContent-host">Ben Ward</dd>
-            <dd class="ScheduleContent-time">8pm</dd>
+            <dt class="ScheduleContent-show"></dt>
+            <dd class="ScheduleContent-host"></dd>
+            <dd class="ScheduleContent-time"></dd>
           </dl>
         </div>
       </section>
     </article>
   </main>
+
+  <aside id="debugger" class="Debug">
+    <div class="Debug-group">
+      <button class="Debug-button" data-debug-event="data:nowplaying:track:changed" data-debug-mock="track-full">Full Track</button>
+      <button class="Debug-button" data-debug-event="data:nowplaying:track:changed" data-debug-mock="track-no-art">Track (No Art)</button>
+      <button class="Debug-button" data-debug-event="data:nowplaying:track:cleared" data-debug-mock="empty">Clear Track</button>
+    </div>
+    <div class="Debug-group">
+      <button class="Debug-button" data-debug-event="data:nowplaying:show:changed" data-debug-mock="show-full">Full Show</button>
+      <button class="Debug-button" data-debug-event="data:nowplaying:show:changed" data-debug-mock="show-no-art">Show (No Art)</button>
+      <button class="Debug-button" data-debug-event="data:nowplaying:show:cleared" data-debug-mock="empty">Clear Show</button>
+    </div>
+    <div class="Debug-group">
+      <button class="Debug-button" data-debug-event="data:nextshow:changed" data-debug-mock="next-show-full">Next</button>
+      <button class="Debug-button" data-debug-event="data:nextshow:changed" data-debug-mock="next-show-no-art">Next (No Art)</button>
+      <button class="Debug-button" data-debug-event="data:nextshow:cleared" data-debug-mock="empty">Clear Next</button>
+    </div>
+  </aside>
 </html>

@@ -5,7 +5,6 @@
   height: 100vh;
   padding: var(--outerPadding);
   max-height: 100vh;
-  overflow: hidden;
   max-width: var(--maxWidth);
   margin: 0 auto;
 }

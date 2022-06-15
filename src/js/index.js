@@ -1,3 +1,4 @@
+import enableDebugging from './debug.js';
 import refreshNowPlaying from './data-track.js';
 import refreshNextShow from './data-show.js';
 import * as Fastly from './fastly.js';
@@ -41,8 +42,16 @@ export default function run() {
   window.setInterval(refreshNowPlaying, TRACK_UPDATE_FREQ);
   window.setInterval(refreshNextShow, SHOW_UPDATE_FREQ);
 
+  enableDebugging();
   refreshNowPlaying();
   refreshNextShow();
+}
+
+function removeLoader() {
+  const loader = document.querySelector('#loader');
+  if (loader) {
+    loader.remove();
+  }
 }
 
 function replaceArtwork(widget, imageUrl, fallback) {
@@ -51,17 +60,16 @@ function replaceArtwork(widget, imageUrl, fallback) {
   const newArt = artContainer.cloneNode(true);
   const newImage = newArt.querySelector('.MetadataInfo-image');
 
-  fallback = fallback || DEFAULT_COVERART;
-
   if (imageUrl) {
     newImage.srcset = Fastly.srcSet(imageUrl);
     newImage.src = Fastly.sizeImage(imageUrl, 300);
   } else {
     newImage.srcset = '';
-    newImage.src = DEFAULT_COVERART;
+    newImage.src = fallback || DEFAULT_COVERART;
   }
 
   artContainer.parentElement.insertBefore(newArt, artContainer);
+  widget.hasCover = !!imageUrl;
   widget.setAttribute('data-cover', imageUrl ? '1' : '0');
 
   window.requestAnimationFrame(function () {
@@ -86,8 +94,7 @@ function updateNowPlayingTrack(nowPlayingInfo) {
   title.textContent = nowPlayingInfo.title;
   release.textContent = nowPlayingInfo.album;
   replaceArtwork(widget, nowPlayingInfo.image, DEFAULT_COVERART);
-
-  widget.setAttribute('data-hydrated', '1');
+  widget.isHydrated = true;
 }
 
 function clearNowPlayingTrack() {
@@ -96,7 +103,7 @@ function clearNowPlayingTrack() {
   let artist = widget.querySelector('.TrackContent-artist');
   let release = widget.querySelector('.TrackContent-release');
 
-  widget.setAttribute('data-hydrated', '0');
+  widget.isHydrated = false;
   title.textContent = '';
   artist.textContent = '';
   release.textContent = '';
@@ -111,7 +118,8 @@ function updateCurrentShow(nowPlayingInfo) {
   title.textContent = nowPlayingInfo.program;
   host.textContent = nowPlayingInfo.presenter;
   replaceArtwork(widget, nowPlayingInfo.program_image, DEFAULT_IMAGE);
-  widget.setAttribute('data-hydrated', '1');
+
+  widget.isHydrated = true;
 }
 
 function clearCurrentShow() {
@@ -119,7 +127,7 @@ function clearCurrentShow() {
   const title = widget.querySelector('.ScheduleContent-show');
   const host = widget.querySelector('.ScheduleContent-host');
 
-  widget.setAttribute('data-hydrated', '0');
+  widget.isHydrated = false;
   title.textContent = DEFAULT_TITLE;
   host.textContent = '';
   replaceArtwork(widget, false, DEFAULT_IMAGE);
@@ -138,7 +146,7 @@ function updateNextShow(showInfo) {
   }).toLowerCase();
 
   replaceArtwork(widget, showInfo.image, DEFAULT_IMAGE);
-  widget.setAttribute('data-hydrated', '1');
+  widget.isHydrated = true;
 }
 
 function clearNextShow() {
@@ -147,7 +155,7 @@ function clearNextShow() {
   const host = widget.querySelector('.ScheduleContent-host');
   const time = widget.querySelector('.ScheduleContent-time');
 
-  widget.setAttribute('data-hydrated', '0');
+  widget.isHydrated = false;
   title.textContent = '';
   host.textContent = '';
   time.textContent = '';
@@ -159,14 +167,23 @@ function setVisibility() {
   const show = document.querySelector('#current-show');
   const upcoming = document.querySelector('#next-show');
 
-  // Determining factors for layout
+  // If the loader is still visible, remove it
+  removeLoader();
 
   // TODO: Support timing out old tracks; reducing previous track when nolonger playing
 
-  const trackHydrated = !!track.getAttribute('data-hydrated');
-  const upcomingHydrated = !!upcoming.getAttribute('data-hydrated');
-  const trackArt = trackHydrated && !!track.getAttribute('data-cover');
-  const showArt = !!show.getAttribute('data-hydrated') && !!show.getAttribute('data-cover');
+  // Determining factors for layout
+  const trackHydrated = track.isHydrated;
+  const upcomingHydrated = upcoming.isHydrated;
+  const trackArt = trackHydrated && track.hasCover;
+  const showArt = show.isHydrated && show.hasCover;
+
+  console.log({
+    trackHydrated,
+    upcomingHydrated,
+    trackArt,
+    showArt
+  });
 
   // Expand the current track when an image is available, other wise expand
   // the current show

@@ -16,20 +16,25 @@
   --initialCoverSize: var(--fullCoverSize);
   --coverSize: var(--initialCoverSize);
 
-  --backgroundColor: #fafafa;
+  --redColor: #f36c4f;
+  --blueColor: #79cdc6;
+  --yellowColor: #fede91;
+  --whiteColor: #fafafa;
+
+  --backgroundColor: var(--whiteColor);
   --accentBackground: #efefef;
   --textColor: #252525;
-  --redColor: #f36c4f;
-  --whiteColor: #fafafa;
   --accentTextColor: #707070;
 
   --regularTextSize: 14px;
   --regularLineHeight: 22px;
 
   --transitionBounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --transitionTime: .5s;
+  --transitionCutTime: .4s;
 }
 
-/* TODO: Variation sizes for wider tablet screen */
+/* Variation sizes for wider tablet screen */
 @media (min-width: 700px) {
  :root {
    --maxWidth: 700px;
@@ -42,3 +47,8 @@
 /* TODO: Adjust font sizes for larger screens */
 
 /* TODO: Adjust for landscape layout */
+
+.debug-animations {
+  --transitionTime: 3s;
+  --transitionCutTime: 2.5s;
+}

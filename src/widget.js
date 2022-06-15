@@ -40,8 +40,6 @@
     setVisibility(nowPlayingInfo);
   }
 
-
-
   // Init
   function run() {
     debug('Running timed update...', UPDATE_FREQ);

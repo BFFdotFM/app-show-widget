@@ -1,6 +1,8 @@
 // const HOST = 'http:localhost:8090';
 const HOST = 'https://bff.fm';
+const EVENT_DELAY = 10000; // how long to delay events to better sync with the stream
 
+let firstRequest = true;
 let lastTrackHash = null;
 let lastShowHash = null;
 
@@ -42,16 +44,23 @@ function hashShow(showInfo) {
   return [
     showInfo.program,
     showInfo.presenter,
-    showInfo.image
+    showInfo.program_image
   ].join(':');
 }
 
+function preloadImage(url) {
+  let img = new Image();
+  img.src = url;
+}
+
 export default function refresh() {
-  fetchOnAir().then(function onAirResponse(data) {
+  fetchOnAir().then(function scheduleOnAirResponse(data) {
 
     if (!data) {
-      document.dispatchEvent(new CustomEvent('data:nowplaying:track:cleared', { bubbles: false }));
-      document.dispatchEvent(new CustomEvent('data:nowplaying:show:cleared', { bubbles: false }));
+      window.setTimeout(function triggerClearOnAir() {
+        document.dispatchEvent(new CustomEvent('data:nowplaying:track:cleared', { bubbles: false }));
+        document.dispatchEvent(new CustomEvent('data:nowplaying:show:cleared', { bubbles: false }));
+      }, firstRequest ? 1 : EVENT_DELAY);
       return;
     }
 
@@ -61,18 +70,30 @@ export default function refresh() {
     // If the track data is the same, let it be
     if (trackHash !== lastTrackHash) {
       lastTrackHash = trackHash;
-      document.dispatchEvent(new CustomEvent('data:nowplaying:track:changed', {
-        bubbles: false,
-        detail: data
-      }));
+
+      preloadImage(data.image);
+
+      window.setTimeout(function triggerTrackChange() {
+        document.dispatchEvent(new CustomEvent('data:nowplaying:track:changed', {
+          bubbles: false,
+          detail: data
+        }));
+      }, firstRequest ? 1 : EVENT_DELAY);
     }
 
     if (showHash !== lastShowHash) {
       lastShowHash = showHash;
-      document.dispatchEvent(new CustomEvent('data:nowplaying:show:changed', {
-        bubbles: false,
-        detail: data
-      }));
+
+      preloadImage(data.program_image);
+
+      window.setTimeout(function triggerTrackChange() {
+        document.dispatchEvent(new CustomEvent('data:nowplaying:show:changed', {
+          bubbles: false,
+          detail: data
+        }));
+      }, firstRequest ? 1 : EVENT_DELAY);
     }
+
+    firstRequest = false;
   });
 }

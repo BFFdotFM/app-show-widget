@@ -6,10 +6,10 @@
   border: var(--widgetSpacing) solid #000;
 
   transition:
-    height .5s ease-out,
-    padding .5s ease-out,
-    transform .5s ease-out,;
-    opacity .5s ease-out;
+    height var(--transitionTime) ease-out,
+    padding var(--transitionTime) ease-out,
+    transform var(--transitionTime) ease-out,
+    opacity var(--transitionTime) ease-out;
 }
 
 .MetadataInfo-art {
@@ -23,11 +23,11 @@
   object-fit: contain;
   object-position: center;
   transition:
-    width .5s var(--transitionBounce),
-    height .5s var(--transitionBounce),
-    box-shadow .5s var(--transitionBounce),
-    transform .5s ease-in-out,
-    opacity .4s;
+    width var(--transitionTime) var(--transitionBounce),
+    height var(--transitionTime) var(--transitionBounce),
+    box-shadow var(--transitionTime) var(--transitionBounce),
+    transform var(--transitionTime) ease-in-out,
+    opacity var(--transitionCutTime);
 
   height: var(--thumbnailSize);
   width: var(--thumbnailSize);
@@ -47,7 +47,7 @@
   * Transitional removal of cover art from a widget by transitioning off-screen
   */
 .is-animatingArtTransition .MetadataInfo-exitingImage {
-  transform: scale(.5) rotate(-10deg) translateX(calc(-2 * var(--coverSize)));
+  transform: scale(.5) rotate(-10deg) translateX(calc(-4 * var(--coverSize)));
   opacity: 0;
 }
 
