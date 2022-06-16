@@ -32,59 +32,16 @@
   height: var(--thumbnailSize);
   width: var(--thumbnailSize);
   max-width: 100%;
+  background: var(--whiteColor);
 }
 
 .MetadataInfo-content {
   height: 100%;
-  padding: 0 20px;
+  padding: 0 0 0 20px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-/** @state is-animatingArtTransition
-  * Transitional removal of cover art from a widget by transitioning off-screen
-  */
-.is-animatingArtTransition .MetadataInfo-exitingImage {
-  transform: scale(.5) rotate(-10deg) translateX(calc(-4 * var(--coverSize)));
-  opacity: 0;
-}
-
-/** @state is-expanded
-  * The widget should fill available space to emphasise artwork
-  */
-.MetadataInfo.is-expanded {
-  padding-left: 0;
-  padding-top: var(--coverSize);
-  height: auto;
-}
-
-/** @state is-hidden
-  * The widget is not disp;layed
-  */
-.MetadataInfo.is-hidden {
-  transform: perspective(200px) rotateX(90deg);
-  height: 1px;
-  border-width: 0 var(--widgetSpacing);
-  opacity: 0;
-}
-
-
-.is-expanded .MetadataInfo-art {
-  right: 0;
-}
-
-.is-expanded .MetadataInfo-image {
-  height: var(--coverSize);
-  width: var(--coverSize);
-  box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.45);
-  background: var(--whiteColor);
-}
-
-.is-expanded .MetadataInfo-content {
-  height: auto;
-  padding: 10px;
 }
 
 /** @variant show
@@ -101,14 +58,68 @@
 */
 .MetadataInfo--track {
   border-color: transparent;
+  border-width: var(--widgetSpacing) 0;
 }
 
-.MetadataInfo--track.is-expanded .MetadataInfo-content {
-  text-align: center;
+/** @variant upnext
+* Metadata displaying upcoming schedule information
+*/
+.MetadataInfo--upNext {
+  border-color: transparent;
+  --thumbnailSize: min(max(75px, 10vw), calc(var(--maxWidth) / 4));
 }
 
-/* wide screen variation */
-@media (min-width: 700px) {
+/** @state is-animatingArtTransition
+  * Transitional removal of cover art from a widget by transitioning off-screen
+  */
+.is-animatingArtTransition .MetadataInfo-exitingImage {
+  transform: scale(.5) rotate(-10deg) translateX(calc(-4 * var(--coverSize)));
+  opacity: 0;
+}
+
+/** @state is-hidden
+  * The widget is not disp;layed
+  */
+.MetadataInfo.is-hidden {
+  transform: perspective(200px) rotateX(90deg);
+  height: 1px;
+  border-width: 0 var(--widgetSpacing);
+  opacity: 0;
+}
+
+/** @state is-expanded
+  * The widget should fill available space to emphasise artwork
+  */
+@media (min-height: 100vw) {
+  .MetadataInfo.is-expanded {
+    padding-left: 0;
+    padding-top: var(--coverSize);
+    height: auto;
+  }
+
+  .is-expanded .MetadataInfo-art {
+    right: 0;
+  }
+
+  .is-expanded .MetadataInfo-image {
+    height: var(--coverSize);
+    width: var(--coverSize);
+    box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.45);
+  }
+
+  .is-expanded .MetadataInfo-content {
+    height: auto;
+    padding: 20px 0 10px 10px;
+  }
+
+  .MetadataInfo--track.is-expanded .MetadataInfo-content {
+    text-align: center;
+  }
+}
+
+
+/* wide screen variation for expansion */
+@media (min-height: 100vw) and (min-width: 700px) {
   .MetadataInfo--track.is-expanded {
     padding-left: var(--coverSize);
     padding-top: 0;
@@ -123,13 +134,4 @@
     height: var(--coverSize);
     padding: 0;
   }
-
-}
-
-/** @variant upnext
-* Metadata displaying upcoming schedule information
-*/
-.MetadataInfo--upNext {
-  border-color: transparent;
-  --thumbnailSize: min(max(75px, 10vw), calc(var(--maxWidth) / 4));
 }

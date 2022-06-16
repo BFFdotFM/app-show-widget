@@ -2,9 +2,9 @@
   --maxWidth: 500px;
   --widgetSpacing: 20px;
   --outerPadding: 20px;
-  --bannerSize: 75px;
+  --bannerSize: 100px;
 
-  --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
+  --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--outerPadding)));
   --maxContentHeight: calc(100vw - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
 
   --thumbnailSize: min(max(100px, 20vw), calc(var(--maxWidth) / 3));
@@ -29,9 +29,19 @@
   --regularTextSize: 14px;
   --regularLineHeight: 22px;
 
+  --labelTextSize: 14px;
+  --labelTextLineHeight: 22px;
+
   --transitionBounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --transitionTime: .5s;
   --transitionCutTime: .4s;
+}
+
+@media (max-width: 400px) {
+  :root {
+    --labelTextSize: 11px;
+    --labelTextLineHeight: 14px;
+  }
 }
 
 /* Variation sizes for wider tablet screen */
