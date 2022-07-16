@@ -1,0 +1,24 @@
+/** HomeScreen component is the outmost container for the home screen widget */
+
+.HomeScreen {
+  box-sizing: border-box;
+  height: 100vh;
+  padding: var(--outerPadding);
+  max-height: 100vh;
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+}
+
+.HomeScreen.has-topBanner {
+  padding-top: var(--bannerSize);
+  --coverSize: calc(var(--initialCoverSize) - var(--bannerSize));
+}
+
+.HomeScreen.has-bottomBanner {
+  padding-bottom: var(--bannerSize);
+  --coverSize: calc(var(--initialCoverSize) - var(--bannerSize));
+}
+
+.HomeScreen.has-bottomBanner.has-topBanner {
+  --coverSize: calc(var(--initialCoverSize) - calc(2 * var(--bannerSize)));
+}

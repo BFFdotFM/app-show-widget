@@ -1,0 +1,47 @@
+.TrackContent {
+  flex-grow: 100;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: var(--regularTextSize);
+  line-height: var(--regularLineHeight);
+
+  max-width: 100%;
+}
+
+@media (min-height: 80vw) {
+  .is-expanded .TrackContent {
+    justify-content: center;
+  }
+}
+
+.TrackContent-info {
+  max-width: 100%;
+}
+
+.TrackContent-label {
+  order: 10;
+  flex-grow: 0;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: var(--labelTextSize);
+  line-height: var(--labelTextLineHeight);
+  font-weight: bold;
+  text-transform: uppercase;
+
+  background: var(--redColor);
+  color: var(--whiteColor);
+}
+
+.TrackContent-title {
+  font-weight: bold;
+}
+.TrackContent-artist {}
+.TrackContent-release {
+  color: var(--accentTextColor);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

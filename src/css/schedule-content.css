@@ -1,0 +1,40 @@
+.ScheduleContent {
+  flex-grow: 100;
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: var(--regularTextSize);
+  line-height: var(--regularLineHeight);
+
+  max-width: 100%;
+}
+
+.ScheduleContent-info {
+  max-width: 100%;
+}
+
+.ScheduleContent-label {
+  order: 10;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: var(--labelTextSize);
+  line-height: var(--labelTextLineHeight);
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  background: var(--redColor);
+  color: var(--whiteColor);
+}
+
+.ScheduleContent-show {
+  font-weight: bold;
+}
+.ScheduleContent-host {
+}
+
+.ScheduleContent-time {
+  color: var(--accentTextColor);
+}

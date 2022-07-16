@@ -1,0 +1,25 @@
+.Debug {
+  position: fixed;
+  right: 0;
+  top: 40px;
+  width: 50px;
+  padding: 2px;
+}
+
+.Debug-group {
+  margin: 10px 0;
+}
+
+.Debug-button {
+  border: 1px solid #c00;
+  border-radius: 3px;
+  display: block;
+  width: 100%;
+  margin: 2px;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.Debug-button:hover, .Debug-button:focus {
+  background: #dadada;
+}

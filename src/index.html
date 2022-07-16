@@ -5,21 +5,59 @@
   <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="color-scheme" content="light">
   <title>On Air Now – BFF.fm</title>
-  <link rel="stylesheet" href="https://aw.bff.fm/css/flama/ad7e6997bfd181a1304100a8b692064cee0278d9.css">
-  <link rel="stylesheet" href="./widget.css">
-  <script src="./widget.js"></script>
-  <a href="https://bff.fm/now">
-    <div class="ShowWidget is-missing-data">
-      <div class="ShowWidget-logo">
-        <img class="ShowWidget-image" src="https://a.bff.fm/image/original/BFFtop30.jpeg?width=360&height=360&fit=crop" alt="">
-      </div>
-      <div class="ShowWidget-info">
-        <h1 class="ShowWidget-title">On Air</h1>
-        <dl class="ShowWidget-metadata">
-          <dt class="ShowWidget-show">Best Frequencies Forever</dt>
-          <dd class="ShowWidget-host"></dd>
-        </dl>
-      </div>
-    </div>
-  </a>
+  <link rel="stylesheet" href="https://aw.bff.fm/css/flama/ae1ee7e8525fbcbc961d10f5b0886d58a8c35e2e.css">
+  <link rel="stylesheet" href="./nowplaying.css">
+  <script src="./nowplaying.bundle.js"></script>
+
+  <aside id="loader" role="presentation" class="Loader">
+    <div class="Loader-bar"><div class="Loader-fill"></div></div>
+  </aside>
+
+  <main class="HomeScreen">
+    <article id="current-show" class="MetadataInfo MetadataInfo--show">
+      <section class="MetadataInfo-art">
+        <img class="MetadataInfo-image" src="" alt="">
+      </section>
+      <section class="MetadataInfo-content">
+        <div class="ScheduleContent">
+          <h1 class="ScheduleContent-label">On Air</h1>
+          <dl>
+            <dt class="ScheduleContent-show">BFF.fm</dt>
+            <dd class="ScheduleContent-host">Loading…</dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+
+    <article id="track" class="MetadataInfo MetadataInfo--track">
+      <section class="MetadataInfo-art">
+        <img class="MetadataInfo-image" src="" alt="">
+      </section>
+      <section class="MetadataInfo-content">
+        <div class="TrackContent">
+          <dl class="TrackContent-info">
+            <dt class="TrackContent-title"></dt>
+            <dd class="TrackContent-artist"></dd>
+            <dd class="TrackContent-release"></dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+
+    <article id="next-show" class="MetadataInfo MetadataInfo--upNext is-hidden">
+      <section class="MetadataInfo-art">
+        <img class="MetadataInfo-image" src="https://aw.bff.fm/assets/art/pattern-grey/9d57e2497e07595604bbd02239b15048a321b29c.png" alt="">
+      </section>
+      <section class="MetadataInfo-content">
+        <div class="ScheduleContent">
+          <h1 class="ScheduleContent-label">Next</h1>
+          <dl class="ScheduleContent-info">
+            <dt class="ScheduleContent-show"></dt>
+            <dd class="ScheduleContent-host"></dd>
+            <dd class="ScheduleContent-time"></dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
 </html>

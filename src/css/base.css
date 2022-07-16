@@ -1,0 +1,15 @@
+ html {
+  margin: 0;
+  padding: 0;
+
+  font: normal normal normal 16px/22px FlamaWeb, sans-serif;
+  color: var(--textColor);
+  background: var(--backgroundColor);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+dl, dd { margin: 0; }

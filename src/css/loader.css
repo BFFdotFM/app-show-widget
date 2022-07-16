@@ -1,0 +1,47 @@
+.Loader {
+  --Loader-barHeight: 5px;
+  --Loader-barWidth: 33vw;
+  --Loader-stripeWidth: 20px;
+
+  background: var(--backgroundColor);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  z-index: 1000;
+}
+
+.Loader-bar {
+  width: var(--Loader-barWidth);
+  height: var(--Loader-barHeight);
+  border-radius: calc(var(--Loader-barHeight) / 2);
+
+  box-shadow: 0px 0px var(--Loader-barHeight) rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--textColor);
+
+  transform: translateZ(0);
+  overflow: hidden;
+}
+
+.Loader-fill {
+  height: var(--Loader-barHeight);
+  width: calc(3 * var(--Loader-barWidth));
+
+  background: transparent repeating-linear-gradient(to right, var(--blueColor), var(--blueColor) var(--Loader-stripeWidth), var(--yellowColor) var(--Loader-stripeWidth), var(--yellowColor) calc(var(--Loader-stripeWidth) * 2), var(--redColor) calc(var(--Loader-stripeWidth) * 2), var(--redColor) calc(var(--Loader-stripeWidth) * 3));
+  animation: Loader-loadingBarScroll 1s ease-in-out infinite;
+}
+
+/** @state is-loading
+  * A page dynamic page request is in progress
+  */
+@keyframes Loader-loadingBarScroll {
+  0%, 100% { transform: translate(0, 0); }
+  99.9% { transform: translate(calc(var(--Loader-stripeWidth) * -3), 0); }
+}

@@ -1,0 +1,142 @@
+.MetadataInfo {
+  position: relative;
+
+  padding-left: var(--thumbnailSize);
+  height: var(--thumbnailSize);
+  border: var(--widgetSpacing) solid #000;
+
+  transition:
+    height var(--transitionCutTime),
+    padding var(--transitionCutTime),
+    transform var(--transitionTime),
+    opacity var(--transitionCutTime) ease-out;
+}
+
+.MetadataInfo-art {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+
+.MetadataInfo-image {
+  object-fit: contain;
+  object-position: center;
+  transition:
+    width var(--transitionTime) var(--transitionBounce),
+    height var(--transitionTime) var(--transitionBounce),
+    box-shadow var(--transitionTime) var(--transitionBounce),
+    transform var(--transitionTime) ease-in-out,
+    opacity var(--transitionCutTime);
+
+  height: var(--thumbnailSize);
+  width: var(--thumbnailSize);
+  max-width: 100%;
+  background: var(--whiteColor);
+}
+
+.MetadataInfo-content {
+  height: 100%;
+  padding: 0 0 0 20px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/** @variant show
+  * Metadata displaying program info
+  */
+.MetadataInfo--show {
+  background: var(--accentBackground);
+  border-color: var(--accentBackground);
+  border-radius: 10px;
+}
+
+/** @variant track
+* Metadata displaying track info
+*/
+.MetadataInfo--track {
+  border-color: transparent;
+}
+
+/** @variant upnext
+* Metadata displaying upcoming schedule information
+*/
+.MetadataInfo--upNext {
+  border-color: transparent;
+  --thumbnailSize: min(max(75px, 10vw), calc(var(--maxWidth) / 4));
+}
+
+/** @state is-animatingArtTransition
+  * Transitional removal of cover art from a widget by transitioning off-screen
+  */
+.is-animatingArtTransition .MetadataInfo-exitingImage {
+  transform: scale(.5) rotate(-10deg) translateX(calc(-4 * var(--coverSize)));
+  opacity: 0;
+}
+
+/** @state is-hidden
+  * The widget is not disp;layed
+  */
+.MetadataInfo.is-hidden {
+  transform: perspective(200px) rotateX(90deg);
+  height: 1px;
+  border-width: 0 var(--widgetSpacing);
+  opacity: 0;
+}
+
+/** @state is-expanded
+  * The widget should fill available space to emphasise artwork
+  */
+@media (min-height: 80vw) {
+  .MetadataInfo.is-expanded {
+    padding-left: 0;
+    padding-top: var(--coverSize);
+    height: auto;
+  }
+
+  .is-expanded .MetadataInfo-art {
+    right: 0;
+  }
+
+  .is-expanded .MetadataInfo-image {
+    height: var(--coverSize);
+    width: var(--coverSize);
+    box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.45);
+  }
+
+  .is-expanded .MetadataInfo-content {
+    height: auto;
+    padding: 20px 0 10px 10px;
+  }
+
+  /* Fuller-bleed cover art */
+  .MetadataInfo--track.is-expanded {
+    border-width: var(--widgetSpacing) 0;
+  }
+
+  .MetadataInfo--track.is-expanded .MetadataInfo-content {
+    text-align: center;
+  }
+}
+
+
+/* wide screen variation for expansion */
+@media (min-height: 80vw) and (min-width: 700px) {
+  .MetadataInfo--track.is-expanded {
+    padding-left: var(--coverSize);
+    padding-top: 0;
+    border-width: var(--widgetSpacing);
+    min-height: var(--coverSize);
+  }
+
+  .MetadataInfo--track.is-expanded .MetadataInfo-art {
+    right: auto;
+  }
+
+  .MetadataInfo--track.is-expanded .MetadataInfo-content {
+    height: var(--coverSize);
+    padding: 0;
+  }
+}

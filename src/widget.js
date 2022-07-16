@@ -1,11 +1,15 @@
 (function () {
   // Configuration
-  const DEFAULT_IMAGE = 'https://aw.bff.fm/assets/art/pattern-grey/9d57e2497e07595604bbd02239b15048a321b29c.png';
-  const DEFAULT_TITLE = 'BFF.fm';
+
   // const HOST = 'http:localhost:8090';
   const HOST = 'https://bff.fm';
-  const UPDATE_FREQ = 10000;
-  const DEBUG = false;
+  const UPDATE_FREQ = 10000; // 10 seconds
+  const CLEAR_OLD_TRACK_TIME = 600000; // 10 minutes
+  const DEBUG = true;
+
+  var previousTrackInfo;
+  var previousTrackHash;
+  var previousTrackTimeout;
 
   function debug(...args) {
     if (DEBUG) {
@@ -13,68 +17,43 @@
     }
   }
 
-  // Data Fetch
-  function fetchOnAir() {
-    return window.fetch(`${HOST}/api/data/shows/now.json`, {
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'omit',
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer'
-    })
-      .then(response => response.json())
-      .catch(error => {
-        console.error('HTTP error fetching Show Playing info', error);
-        return false;
-      });
-  }
 
-  // Populate
-  function fastlySizeImage(url, size) {
-    return `${url}?width=${size}&height${size}&fit=crop`;
-  }
+  // Rendering
+  function renderNowPlaying(nowPlayingInfo) {
+    updateShow(nowPlayingInfo);
+    updateTrack(nowPlayingInfo);
 
-  function fastlySrcSet(url) {
-    return [100, 300, 500, 1000]
-      .map(size => `${fastlySizeImage(url, size)} ${size}w`)
-      .join(',');
-  }
+    const newTrackHash = hashTrack(nowPlayingInfo);
+    if (newTrackHash && (newTrackHash != previousTrackHash)) {
+      previousTrackHash = newTrackHash;
+      previousTrackInfo = nowPlayingInfo;
 
-  function render(showInfo) {
-    let widget = document.querySelector('.ShowWidget');
-    let title = widget.querySelector('.ShowWidget-show');
-    let host = widget.querySelector('.ShowWidget-host');
-    let image = widget.querySelector('.ShowWidget-image');
-
-    if (showInfo === false) {
-      debug('No show info returned; reverting to defaults');
-      widget.classList.add('is-missing-data');
-      title.textContent = DEFAULT_TITLE;
-      image.srcset = '';
-      image.src = DEFAULT_IMAGE;
-      return;
+      if (previousTrackTimeout) {
+        window.clearTimeout(previousTrackTimeout);
+        previousTrackTimeout = window.setTimeout(function () {
+          previousTrackInfo = null;
+          previousTrackHash = null;
+        }, CLEAR_OLD_TRACK_TIME)
+      }
     }
 
-    title.textContent = showInfo.show;
-    host.textContent = showInfo.host;
-
-    if (showInfo.image) {
-      image.srcset = fastlySrcSet(showInfo.image);
-      image.src = fastlySizeImage(showInfo.image, 300);
-      debug('Generated image URLs', image.src, image.srcsrc);
-    } else {
-      debug('No image in response; reverting to default image');
-      image.srcset = '';
-      image.src = DEFAULT_IMAGE;
-    }
-    widget.classList.remove('is-missing-data');
+    setVisibility(nowPlayingInfo);
   }
+
   // Init
   function run() {
     debug('Running timed update...', UPDATE_FREQ);
     fetchOnAir()
-      .then(render)
+      .then(renderNowPlaying)
       .finally(() => setTimeout(run, UPDATE_FREQ));
   }
+
+  window.addEventListener('load', function () {
+    document.querySelector('.debugButton').addEventListener('click', function () {
+      document.querySelector('.TrackWidget').classList.toggle('is-default-cover');
+      document.querySelector('.ShowWidget').classList.toggle('is-expanded');
+    });
+  });
+
   run();
 })();
