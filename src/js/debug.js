@@ -1,7 +1,7 @@
 
 const MOCKS = {
-  'empty': {},
-  'track-full': {
+  "empty": {},
+  "track-full": {
     "title": "High and Dry",
     "artist": "Radiohead",
     "album": "The Bends",
@@ -12,7 +12,7 @@ const MOCKS = {
     "presenter": "Lonald J Bandz, Kenny Davis",
     "program_image": "https:\/\/a.bff.fm\/image\/original\/1635980283bOzJbOBg-tnn_logo.png"
   },
-  'track-no-art': {
+  "track-no-art": {
     "title": "No Surprises",
     "artist": "Radiohead",
     "album": "OK Computer",
@@ -23,7 +23,7 @@ const MOCKS = {
     "presenter": "Lonald J Bandz, Kenny Davis",
     "program_image": "https:\/\/a.bff.fm\/image\/original\/1635980283bOzJbOBg-tnn_logo.png"
   },
-  'show-full': {
+  "show-full": {
     "title": null,
     "artist": null,
     "album": null,
@@ -34,7 +34,7 @@ const MOCKS = {
     "presenter": "Lonald J Bandz, Kenny Davis",
     "program_image": "https:\/\/a.bff.fm\/image\/original\/1635980283bOzJbOBg-tnn_logo.png"
   },
-  'show-no-art': {
+  "show-no-art": {
     "title": null,
     "artist": null,
     "album": null,
@@ -45,7 +45,7 @@ const MOCKS = {
     "presenter": "Ben Ward",
     "program_image": null
   },
-  'next-show-full': {
+  "next-show-full": {
     "show": "G's Chill Lounge\u00ae",
     "host": "Gina Alexander",
     "url": "https:\/\/bff.fm\/shows\/gs-chill-lounge",
@@ -53,7 +53,7 @@ const MOCKS = {
     "end": "2022-06-15T16:00:00-07:00",
     "image": "https:\/\/a.bff.fm\/image\/original\/image_3__2.jpg"
   },
-  'next-show-no-art': {
+  "next-show-no-art": {
     "show": "G's Chill Lounge\u00ae",
     "host": "Gina Alexander",
     "url": "https:\/\/bff.fm\/shows\/gs-chill-lounge",
