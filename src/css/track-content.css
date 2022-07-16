@@ -11,7 +11,7 @@
   max-width: 100%;
 }
 
-@media (min-height: 100vw) {
+@media (min-height: 80vw) {
   .is-expanded .TrackContent {
     justify-content: center;
   }
@@ -44,8 +44,4 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-@media (max-width: 400px) {
-
 }

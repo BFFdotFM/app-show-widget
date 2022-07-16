@@ -33,10 +33,8 @@
   font-weight: bold;
 }
 .ScheduleContent-host {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
+
 .ScheduleContent-time {
   color: var(--accentTextColor);
 }

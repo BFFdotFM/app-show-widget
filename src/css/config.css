@@ -1,13 +1,18 @@
 :root {
   --maxWidth: 500px;
-  --widgetSpacing: 20px;
-  --outerPadding: 20px;
+  --widgetSpacing: min(5vh, 20px);
+  --outerPadding: min(2vh, 20px);
   --bannerSize: 100px;
 
-  --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--outerPadding)));
+  --maxContentWidth: calc(var(--maxWidth) - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
   --maxContentHeight: calc(100vw - calc(2 * var(--widgetSpacing)) - calc(2 * var(--outerPadding)));
+  --fullBleedMaxContentHeight: calc(100vw - calc(2 * var(--outerPadding)));
 
-  --thumbnailSize: min(max(100px, 20vw), calc(var(--maxWidth) / 3));
+  --thumbnailSize: min(
+    max(100px, 20vw),
+    calc(var(--maxWidth) / 3),
+    calc(50vh - calc(2 * var(--widgetSpacing)))
+  );
 
   --fullCoverSize: min(
     calc(100vh - calc(var(--thumbnailSize) + 4rem + calc(4 * var(--widgetSpacing)) + calc(2 * var(--outerPadding)))),
@@ -57,6 +62,11 @@
 /* TODO: Adjust font sizes for larger screens */
 
 /* TODO: Adjust for landscape layout */
+@media (min-width: 100vh) {
+  :root {
+    --maxWidth: max(100vh, 1000px);
+  }
+}
 
 .debug-animations {
   --transitionTime: 3s;

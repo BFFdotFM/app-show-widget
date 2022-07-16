@@ -4,6 +4,9 @@ module.exports = {
   plugins: [
     require('postcss-bem-linter')({ preset: 'suit' }),
     require('postcss-import')({ glob: true }),
-    require('postcss-clean')(),
+    require('postcss-discard-comments')(),
+    require('postcss-variable-compress')(),
+    require('postcss-csso')(),
+    require('postcss-reporter')()
   ]
 };

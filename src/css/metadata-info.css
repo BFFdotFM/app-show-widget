@@ -6,10 +6,10 @@
   border: var(--widgetSpacing) solid #000;
 
   transition:
-    height var(--transitionTime) ease-out,
-    padding var(--transitionTime) ease-out,
-    transform var(--transitionTime) ease-out,
-    opacity var(--transitionTime) ease-out;
+    height var(--transitionCutTime),
+    padding var(--transitionCutTime),
+    transform var(--transitionTime),
+    opacity var(--transitionCutTime) ease-out;
 }
 
 .MetadataInfo-art {
@@ -58,7 +58,6 @@
 */
 .MetadataInfo--track {
   border-color: transparent;
-  border-width: var(--widgetSpacing) 0;
 }
 
 /** @variant upnext
@@ -90,7 +89,7 @@
 /** @state is-expanded
   * The widget should fill available space to emphasise artwork
   */
-@media (min-height: 100vw) {
+@media (min-height: 80vw) {
   .MetadataInfo.is-expanded {
     padding-left: 0;
     padding-top: var(--coverSize);
@@ -112,6 +111,11 @@
     padding: 20px 0 10px 10px;
   }
 
+  /* Fuller-bleed cover art */
+  .MetadataInfo--track.is-expanded {
+    border-width: var(--widgetSpacing) 0;
+  }
+
   .MetadataInfo--track.is-expanded .MetadataInfo-content {
     text-align: center;
   }
@@ -119,10 +123,11 @@
 
 
 /* wide screen variation for expansion */
-@media (min-height: 100vw) and (min-width: 700px) {
+@media (min-height: 80vw) and (min-width: 700px) {
   .MetadataInfo--track.is-expanded {
     padding-left: var(--coverSize);
     padding-top: 0;
+    border-width: var(--widgetSpacing);
     min-height: var(--coverSize);
   }
 
