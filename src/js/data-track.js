@@ -49,6 +49,10 @@ function hashShow(showInfo) {
 }
 
 function preloadImage(url) {
+  if (!url) {
+    return;
+  }
+
   let img = new Image();
   img.src = url;
 }
