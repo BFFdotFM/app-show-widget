@@ -178,13 +178,6 @@ function setVisibility() {
   const trackArt = trackHydrated && track.hasCover;
   const showArt = show.isHydrated && show.hasCover;
 
-  console.log({
-    trackHydrated,
-    upcomingHydrated,
-    trackArt,
-    showArt
-  });
-
   // Expand the current track when an image is available, other wise expand
   // the current show
   show.classList.toggle('is-expanded', !trackArt);

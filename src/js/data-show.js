@@ -36,7 +36,7 @@ function hashShow(showInfo) {
 export default function refresh() {
   fetchNextShow().then(function nextShowResponse(data) {
 
-    if (!data) {
+    if (!data || !data.show) {
       document.dispatchEvent(new CustomEvent('data:nextshow:cleared', {
         bubbles: false,
         detail: data

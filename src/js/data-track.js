@@ -49,6 +49,10 @@ function hashShow(showInfo) {
 }
 
 function preloadImage(url) {
+  if (!url) {
+    return;
+  }
+
   let img = new Image();
   img.src = url;
 }
@@ -56,7 +60,7 @@ function preloadImage(url) {
 export default function refresh() {
   fetchOnAir().then(function scheduleOnAirResponse(data) {
 
-    if (!data) {
+    if (!data || !data.title) {
       window.setTimeout(function triggerClearOnAir() {
         document.dispatchEvent(new CustomEvent('data:nowplaying:track:cleared', { bubbles: false }));
         document.dispatchEvent(new CustomEvent('data:nowplaying:show:cleared', { bubbles: false }));
