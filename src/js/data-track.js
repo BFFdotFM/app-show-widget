@@ -59,20 +59,23 @@ function preloadImage(url) {
 
 export default function refresh() {
   fetchOnAir().then(function scheduleOnAirResponse(data) {
-
-    if (!data || !data.title) {
-      window.setTimeout(function triggerClearOnAir() {
-        document.dispatchEvent(new CustomEvent('data:nowplaying:track:cleared', { bubbles: false }));
-        document.dispatchEvent(new CustomEvent('data:nowplaying:show:cleared', { bubbles: false }));
-      }, firstRequest ? 1 : EVENT_DELAY);
-      return;
-    }
-
     let trackHash = hashTrack(data);
     let showHash = hashShow(data);
 
+    if (!trackHash) {
+      window.setTimeout(function triggerClearOnAir() {
+        document.dispatchEvent(new CustomEvent('data:nowplaying:track:cleared', { bubbles: false }));
+      }, firstRequest ? 1 : EVENT_DELAY);
+    }
+
+    if (!showHash) {
+      window.setTimeout(function triggerClearOnAir() {
+        document.dispatchEvent(new CustomEvent('data:nowplaying:show:cleared', { bubbles: false }));
+      }, firstRequest ? 1 : EVENT_DELAY);
+    }
+
     // If the track data is the same, let it be
-    if (trackHash !== lastTrackHash) {
+    if (trackHash && trackHash !== lastTrackHash) {
       lastTrackHash = trackHash;
 
       preloadImage(data.image);
@@ -85,7 +88,7 @@ export default function refresh() {
       }, firstRequest ? 1 : EVENT_DELAY);
     }
 
-    if (showHash !== lastShowHash) {
+    if (showHash && showHash !== lastShowHash) {
       lastShowHash = showHash;
 
       preloadImage(data.program_image);
