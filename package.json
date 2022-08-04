@@ -1,6 +1,6 @@
 {
   "name": "bffdotfm-app-home",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "BFF.FM is a community radio station based in San Francisco, CA. This is the home screen widget for our app.",
   "repository": {
     "type": "git",
